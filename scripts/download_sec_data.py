@@ -1,0 +1,66 @@
+import requests
+from bs4 import BeautifulSoup
+import os
+import zipfile
+import io
+from airflow.providers.amazon.aws.hooks.s3 import S3Hook
+
+def extract_and_upload_to_s3():
+    download_dir = "ceac_financial_statements"
+    os.makedirs(download_dir, exist_ok=True)
+
+    ceac_url = "https://www.sec.gov/data-research/sec-markets-data/financial-statement-data-sets"
+
+    headers = {
+        "User-Agent": "Arvind/1.0 (your_mail@example.com)"
+    }
+
+    # Step 1: Fetch the SEC webpage and extract ZIP file links
+    web_response = requests.get(ceac_url, headers=headers)
+
+    if web_response.status_code == 200:
+        soup = BeautifulSoup(web_response.text, 'html.parser')
+
+        zip_links = []
+        for link in soup.find_all('a', href=True):
+            href = link['href']
+            if href.endswith('.zip'):
+                full_url = "https://www.sec.gov" + href if href.startswith("/") else href
+                zip_links.append(full_url)
+
+        if zip_links:
+            # Process only the first zip link
+            zip_link = zip_links[0]
+            zip_filename = os.path.join(download_dir, zip_link.split("/")[-1])
+
+            print(f"Downloading: {zip_link}")
+            zip_response = requests.get(zip_link, headers=headers)
+
+            if zip_response.status_code == 200:
+                with open(zip_filename, "wb") as f:
+                    f.write(zip_response.content)
+                print(f"Saved: {zip_filename}")
+
+                try:
+                    # Read the ZIP file into memory as bytes
+                    zip_bytes = io.BytesIO(zip_response.content)
+
+                    # Create an S3 hook to upload the bytes to an S3 bucket
+                    s3_hook = S3Hook(aws_conn_id="aws_default")
+                    # Upload the ZIP file to S3
+                    s3_hook.load_bytes(zip_bytes.getvalue(), key=zip_filename, bucket_name="document-parsed-files-1", replace=True)
+                    print(f"Uploaded: {zip_filename} to S3")
+                    
+                    with zipfile.ZipFile(zip_bytes, "r") as z:
+                        z.extractall(download_dir)
+                        print(f"Extracted contents of {zip_filename}")
+                except zipfile.BadZipFile:
+                    print(f"Skipping invalid ZIP file: {zip_filename}")
+            else:
+                print(f"Failed to download zip file: {zip_link} - Status Code: {zip_response.status_code}")
+        else:
+            print("No ZIP links found on the webpage.")
+    else:
+        print(f"Failed to access the website. Status Code: {web_response.status_code}")
+
+    print(f"All extracted files are saved in: {download_dir}")
