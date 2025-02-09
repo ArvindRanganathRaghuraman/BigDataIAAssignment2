@@ -12,15 +12,11 @@ def extract_and_upload_to_s3():
     ceac_url = "https://www.sec.gov/data-research/sec-markets-data/financial-statement-data-sets"
 
     headers = {
-        "User-Agent": "Arvind/1.0 (your_mail@example.com)"
+        "User-Agent": "Riya_User/1.0 (your_mail@example.com)"
     }
-
-    # Step 1: Fetch the SEC webpage and extract ZIP file links
     web_response = requests.get(ceac_url, headers=headers)
-
     if web_response.status_code == 200:
         soup = BeautifulSoup(web_response.text, 'html.parser')
-
         zip_links = []
         for link in soup.find_all('a', href=True):
             href = link['href']
@@ -29,38 +25,34 @@ def extract_and_upload_to_s3():
                 zip_links.append(full_url)
 
         if zip_links:
-            # Process only the first zip link
-            zip_link = zip_links[0]
-            zip_filename = os.path.join(download_dir, zip_link.split("/")[-1])
+            s3_hook = S3Hook(aws_conn_id="aws_default")
 
-            print(f"Downloading: {zip_link}")
-            zip_response = requests.get(zip_link, headers=headers)
+            for zip_link in zip_links:
+                zip_filename = zip_link.split("/")[-1]  
+                zip_folder_name = zip_filename.replace(".zip", "") 
 
-            if zip_response.status_code == 200:
-                with open(zip_filename, "wb") as f:
-                    f.write(zip_response.content)
-                print(f"Saved: {zip_filename}")
+                print(f"Downloading: {zip_link}")
+                zip_response = requests.get(zip_link, headers=headers)
 
-                try:
-                    # Read the ZIP file into memory as bytes
-                    zip_bytes = io.BytesIO(zip_response.content)
+                if zip_response.status_code == 200:
+                    try:
+                        zip_bytes = io.BytesIO(zip_response.content)
 
-                    # Create an S3 hook to upload the bytes to an S3 bucket
-                    s3_hook = S3Hook(aws_conn_id="aws_default")
-                    # Upload the ZIP file to S3
-                    s3_hook.load_bytes(zip_bytes.getvalue(), key=zip_filename, bucket_name="document-parsed-files-1", replace=True)
-                    print(f"Uploaded: {zip_filename} to S3")
-                    
-                    with zipfile.ZipFile(zip_bytes, "r") as z:
-                        z.extractall(download_dir)
-                        print(f"Extracted contents of {zip_filename}")
-                except zipfile.BadZipFile:
-                    print(f"Skipping invalid ZIP file: {zip_filename}")
-            else:
-                print(f"Failed to download zip file: {zip_link} - Status Code: {zip_response.status_code}")
+                        
+                        with zipfile.ZipFile(zip_bytes, "r") as z:
+                            for file_name in z.namelist():
+                                file_bytes = z.read(file_name)
+                                s3_file_key = f"ceac_financial_statements/{zip_folder_name}/{file_name}"
+                                s3_hook.load_bytes(file_bytes, key=s3_file_key, bucket_name="s3-airflow-bucket-1", replace=True)
+                                print(f"Uploaded extracted file to S3: {s3_file_key}")
+
+                    except zipfile.BadZipFile:
+                        print(f"Skipping invalid ZIP file: {zip_filename}")
+                else:
+                    print(f"Failed to download zip file: {zip_link} - Status Code: {zip_response.status_code}")
         else:
             print("No ZIP links found on the webpage.")
     else:
         print(f"Failed to access the website. Status Code: {web_response.status_code}")
 
-    print(f"All extracted files are saved in: {download_dir}")
+    print("All extracted files have been uploaded to S3.")
