@@ -7,7 +7,7 @@ app = FastAPI()
 
 #snowflake credentials
 SNOWFLAKE_USER = "ARVIND177"
-SNOWFLAKE_PASSWORD = quote_plus("Arvind@177")  # Encodes special characters
+SNOWFLAKE_PASSWORD = quote_plus("Arvind@177")  
 SNOWFLAKE_ACCOUNT = "duvvjid-bvb83781"
 SNOWFLAKE_DATABASE = "FIN_DATA"
 SNOWFLAKE_SCHEMA = "DEV"
