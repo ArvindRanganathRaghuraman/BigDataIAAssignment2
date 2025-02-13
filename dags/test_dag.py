@@ -10,11 +10,18 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 's
 # Import the function after updating the path
 from download_sec_data import extract_and_upload_to_s3
 
+default_args = {
+    'owner': 'airflow',
+    'retries': 3,
+    'catchup': False,  
+}
+
+
 # Define Airflow DAG
 with DAG(
     dag_id="sec_data_extraction_dag",
     start_date=datetime(2025, 2, 8),
-    schedule_interval="@daily",  # You can adjust the schedule
+    schedule_interval="@daily",  
     catchup=False
 ) as dag:
 

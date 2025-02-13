@@ -4,18 +4,18 @@ from airflow.providers.snowflake.hooks.snowflake import SnowflakeHook
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 
-# Define Default Arguments
+
 default_args = {
     'owner': 'airflow',
     'start_date': datetime(2024, 2, 8),
     'retries': 0
 }
 
-# Initialize DAG
+
 dag = DAG(
     dag_id='check_s3_snowflake_connection',
     default_args=default_args,
-    schedule_interval=None,  # Run manually
+    schedule_interval=None,  
     catchup=False
 )
 

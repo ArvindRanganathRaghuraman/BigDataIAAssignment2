@@ -9,7 +9,7 @@ os.makedirs(download_dir, exist_ok=True)
 ceac_url = "https://www.sec.gov/data-research/sec-markets-data/financial-statement-data-sets"
 
 headers = {
-    "User-Agent": "Arvind/1.0 (your_mail@example.com)"
+    "User-Agent": "Riya/1.0 (your_mail@example.com)"
 }
 
 # Step 1: Fetch the SEC webpage and extract ZIP file links
