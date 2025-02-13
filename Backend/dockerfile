@@ -1,0 +1,30 @@
+FROM python:3.10
+
+# Set environment variables to avoid interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies required for Snowflake
+RUN apt-get update && apt-get install -y \
+    libssl-dev \
+    libffi-dev \
+    gcc \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory
+WORKDIR /app
+
+# Copy only requirements first (to leverage Docker cache for dependencies)
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
+COPY . .
+
+# Expose the FastAPI default port
+EXPOSE 8000
+
+# Run the application
+CMD ["uvicorn", "snowflake_connection:app", "--host", "0.0.0.0", "--port", "8000"]
