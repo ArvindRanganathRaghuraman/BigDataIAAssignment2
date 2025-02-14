@@ -1,0 +1,43 @@
+Compare and discuss the advantages/disadvantages of Raw Storage, JSON,
+and RDBMS approaches.
+
+Raw Storage
+Advantages
+Storing raw files (CSV, Parquet, etc.) in object storage (e.g., AWS S3, Azure Blob Storage) is cheap and easy to manage.
+Data can be stored without worrying about predefined schema constraints.
+Suitable for streaming and batch processing, as it doesn’t require upfront schema validation.
+
+Disadvantages
+Searching and filtering raw files is slow compared to structured databases.
+No inherent way to manage relationships between data points.
+No support for transactions, consistency checks, or concurrent updates.
+
+JSON Storage
+
+Advantages
+JSON allows for variable fields without requiring schema changes.
+Easily handles hierarchical and complex data structures.
+JSON is commonly used for logs, APIs, and event-driven architectures.
+
+Disadvantages
+JSON queries require additional processing
+Performance suffers when filtering large datasets, especially if JSON fields are deeply nested.
+JSON has a higher storage footprint compared to structured relational formats.
+
+RDBMS 
+
+Advantages
+Enforces a predefined schema, ensuring data integrity.
+SQL-based querying is highly optimized for structured relational data.
+ Ensures reliability with transactional support.
+
+ Disadvantages
+Changing schema requires ALTER operations, which can be costly.
+Requires planning for schema design and indexing.
+Data must fit the schema, leading to slower insert/update times compared to raw storage.
+
+Conclusion:
+
+    Use Raw Storage for staging, backups, and cost-effective data lakes.
+    Use JSON when handling semi-structured data, API logs, or flexible schema needs.
+    Use RDBMS for structured, transactional, and analytical data where query performance and consistency are key.

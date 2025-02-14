@@ -1,0 +1,49 @@
+.
+├── AiUseDisclosure.md
+├── Backend
+│   ├── __pycache__
+│   ├── dockerfile
+│   ├── requirements.txt
+│   ├── snowflake_connection.py
+│   └── venv
+├── DataScraping
+│   └── Datascraping.py
+├── Diagrams
+│   ├── Json_Pipeline.py
+│   ├── Raw_Staging.py
+│   ├── Tables_Pipeline.py
+│   ├── data_pipeline.png
+│   ├── json.png
+│   ├── json_pipeline.png
+│   ├── raw_data.jpg
+│   └── tables_pipeline.png
+├── Frontend
+│   └── snowflake_getdata.py
+├── Prototyping
+│   ├── Comparison.txt
+│   └── RAW_STAGING.txt
+├── README.md
+├── SQL COMMANDS
+│   └── RAW_STAGE.sql
+├── ceac_financial_statements
+├── config
+│   └── airflow_settings.json
+├── dags
+│   ├── __pycache__
+│   ├── check_s3_snowflake.py
+│   ├── dags
+│   ├── s3_extraction_snowflake.py
+│   ├── s3_num_extraction.py
+│   ├── test_dag.py
+│   └── validation.py
+├── findata_dbt
+│   ├── logs
+│   └── target
+├── requirements.txt
+├── scripts
+│   ├── __pycache__
+│   └── download_sec_data.py
+└── ziptoJSON
+    └── jsonconverter.py
+
+20 directories, 27 files

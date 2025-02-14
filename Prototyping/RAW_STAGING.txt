@@ -1,0 +1,29 @@
+Research on scraping the data from the website.
+Tools used for that were beautiful soup.
+Received errors during scraping as the user agents were not allowing the scraping of data.
+Changed the user agents after discussing with team mates and started the scraping the file.
+
+After the data was scraped in local tried to first upload in s3 after making connection locally.
+--Used the test_dag file to uplooad it. 
+--Connected airflow with s3 and checked the connection creating the first pipeline.
+--Was able to successfully connect and update the files on s3 after getting initial errors.
+
+Researched about what does raw staging means and is it close to rdms.
+--first connected snowflake and airflow
+--Used the check_connection_s3 file to connect s3 and snowflake.
+--tried to fist only load one table at a time.
+--was able to load it after errors with snowflakeoperator.
+
+Research on snowflake
+--Manually loaded the data first checking the table strcuture 
+--Created tables on snowflake accordingly.
+--Loaded the first table into snowflake via airlfow from s3.
+--Created pipelines for transferring the data.
+
+Validation of the data 
+Researched on how to validate the pipeline 
+--What all is included in the pipeline
+--Created a seperate pipeline for validation 
+
+Created fastapi to execute queries and display in frontend.
+
