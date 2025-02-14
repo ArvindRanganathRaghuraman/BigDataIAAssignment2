@@ -61,10 +61,6 @@ For Dbt, we run the dbt to create denormalized tables in Snowflake.
 
 Finally, FastAPI is used to connect to the snowflake to retrieve data and a client facing application using streamlit is done to view the data.
 
-CONTRIBUTION 
-KAUSHIK - DBT, Denormalized Tables Storage,Astro Db  - 33% 
-RIYA - Raw Storage, Backend -Fastapi, Frontend - Streamlit, Airflow Pipeline for Raw Storage,Documentation 33% 
-ARVIND - Json Converter, Airflow Pipeline for Json, Deployment, Diagrams 33%
 
 
 
