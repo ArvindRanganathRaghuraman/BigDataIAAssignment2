@@ -1,12 +1,7 @@
 # BigDataIAAssignment2
 
-ATTESTATION 
- WE ATTEST THAT WE HAVEN’T USED ANY OTHER STUDENT'S WORK IN OUR ASSIGNMENT AND ABIDE BY THE POLICIES LISTED IN THE STUDENT HANDBOOK
-
-CONTRIBUTION 
-KAUSHIK - DBT, Denormalized Tables Storage,Astro Db  - 33% 
-RIYA - Raw Storage, Backend -Fastapi, Frontend - Streamlit, Airflow Pipeline for Raw Storage,Documentation 33% 
-ARVIND - Json Converter, Airflow Pipeline for Json, Deployment, Diagrams 33%
+Project Overview
+Findata Inc. is building a master financial statement database to support analysts in conducting fundamental analysis of US public companies. This project involves scraping SEC financial data, designing Snowflake storage solutions, transforming data using DBT, automating pipelines with Airflow, and developing a Streamlit app with a FastAPI backend.
 
 Folders 
 
@@ -25,7 +20,27 @@ finddata_dbt - Contains the DBT file.
 scripts - Contains the script to download the sec_data.py
 
 
-Codelabs Preview -  https://docs.google.com/document/d/1sx8sjw3jT-GHpvyWU8EhqmGskVg990px71K6oIC8Jbw/edit?usp=sharing.
+Codelabs Preview -  https://codelabs-preview.appspot.com/?file_id=1sx8sjw3jT-GHpvyWU8EhqmGskVg990px71K6oIC8Jbw
+
+Technology Stack
+Database: Snowflake
+ETL & Pipelines: DBT, Apache Airflow, S3
+Backend: FastAPI
+Frontend: Streamlit
+Infrastructure: Docker, SQLAlchemy
+
+Step-by-Step Guide
+1.Clone Repository & Install Dependencies
+2.Data Ingestion & Processing
+3.Scrape SEC Data & Download Datasets
+4.Deploy & Run Airflow Pipelines
+5.Run the Backend API
+6.Run the Streamlit Frontend
+7.Accessing Deployed Applications
+
+Backend url:https://fastapi-snowflake-343736309329.us-central1.run.app
+Frotend url:https://singhriya23-bigdataiaassignmen-frontendsnowflake-getdata-oefn0f.streamlit.app/
+
 
 
 
@@ -45,6 +60,12 @@ For Dbt, we run the dbt to create denormalized tables in Snowflake.
 
 
 Finally, FastAPI is used to connect to the snowflake to retrieve data and a client facing application using streamlit is done to view the data.
+
+CONTRIBUTION 
+KAUSHIK - DBT, Denormalized Tables Storage,Astro Db  - 33% 
+RIYA - Raw Storage, Backend -Fastapi, Frontend - Streamlit, Airflow Pipeline for Raw Storage,Documentation 33% 
+ARVIND - Json Converter, Airflow Pipeline for Json, Deployment, Diagrams 33%
+
 
 
 
