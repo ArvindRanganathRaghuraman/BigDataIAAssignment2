@@ -22,6 +22,8 @@ scripts - Contains the script to download the sec_data.py
 
 Codelabs Preview -  https://codelabs-preview.appspot.com/?file_id=1sx8sjw3jT-GHpvyWU8EhqmGskVg990px71K6oIC8Jbw
 
+https://docs.google.com/document/d/1sx8sjw3jT-GHpvyWU8EhqmGskVg990px71K6oIC8Jbw/edit?tab=t.0#heading=h.ujsqlibfh6ty
+
 Technology Stack
 Database: Snowflake
 ETL & Pipelines: DBT, Apache Airflow, S3
