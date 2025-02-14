@@ -1,0 +1,102 @@
+WITH balance_sheet AS (
+    SELECT
+        sub.ADSH,
+        sub.CIK,
+        sub.NAME,
+        pre.TAG,
+        pre.VERSION,
+        num.VALUE,
+        sub.FORM,
+        sub.FY,
+        sub.FP,
+        sub.FILED
+    FROM {{ ref('stg_sub') }} AS sub
+    JOIN {{ ref('stg_pre') }} AS pre ON sub.ADSH = pre.ADSH
+    JOIN {{ ref('stg_num') }} AS num ON pre.ADSH = num.ADSH AND pre.TAG = num.TAG
+    WHERE pre.STMT = 'BS'  -- Filtering for Balance Sheet
+)
+SELECT *
+FROM balance_sheet
+
+WITH cash_flow AS (
+    SELECT
+        sub.ADSH,
+        sub.CIK,
+        sub.NAME,
+        pre.TAG,
+        pre.VERSION,
+        num.VALUE,
+        sub.FORM,
+        sub.FY,
+        sub.FP,
+        sub.FILED
+    FROM {{ ref('stg_sub') }} AS sub
+    JOIN {{ ref('stg_pre') }} AS pre ON sub.ADSH = pre.ADSH
+    JOIN {{ ref('stg_num') }} AS num ON pre.ADSH = num.ADSH AND pre.TAG = num.TAG
+    WHERE pre.STMT = 'CF'  -- Filtering for Cash Flow
+)
+SELECT *
+FROM cash_flow
+
+WITH income_statement AS (
+    SELECT
+        sub.ADSH,
+        sub.CIK,
+        sub.NAME,
+        pre.TAG,
+        pre.VERSION,
+        num.VALUE,
+        sub.FORM,
+        sub.FY,
+        sub.FP,
+        sub.FILED
+    FROM {{ ref('stg_sub') }} AS sub
+    JOIN {{ ref('stg_pre') }} AS pre ON sub.ADSH = pre.ADSH
+    JOIN {{ ref('stg_num') }} AS num ON pre.ADSH = num.ADSH AND pre.TAG = num.TAG
+    WHERE pre.STMT = 'IS'  -- Filtering for Income Statement
+)
+SELECT *
+FROM income_statement
+
+with num as (
+    select
+        ADSH,
+        TAG,
+        VERSION,
+        VALUE,
+        coreg,
+        footnote
+    from {{ source('raw_data', 'raw_num') }}
+)
+select * from num
+
+with pre as (
+    select
+        ADSH,
+        REPORT,
+        LINE,
+        TAG,
+        PLABEL
+    from {{ source('raw_data', 'raw_pre') }}
+)
+select * from pre
+
+WITH income_statement AS (
+    SELECT
+        sub.ADSH,
+        sub.CIK,
+        sub.NAME,
+        pre.TAG,
+        pre.VERSION,
+        num.VALUE,
+        sub.FORM,
+        sub.FY,
+        sub.FP,
+        sub.FILED
+    FROM {{ ref('stg_sub') }} AS sub
+    JOIN {{ ref('stg_pre') }} AS pre ON sub.ADSH = pre.ADSH
+    JOIN {{ ref('stg_num') }} AS num ON pre.ADSH = num.ADSH AND pre.TAG = num.TAG
+    WHERE pre.STMT = 'IS'  -- Filtering for Income Statement
+)
+SELECT *
+FROM income_statement
