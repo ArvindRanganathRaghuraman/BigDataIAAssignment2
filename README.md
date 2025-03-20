@@ -41,22 +41,22 @@ Step-by-Step Guide
 7.Accessing Deployed Applications
 
 Backend url:https://fastapi-snowflake-343736309329.us-central1.run.app
-Frotend url:https://singhriya23-bigdataiaassignmen-frontendsnowflake-getdata-oefn0f.streamlit.app/
+Frontend url:https://singhriya23-bigdataiaassignmen-frontendsnowflake-getdata-oefn0f.streamlit.app/
+
+
+![sec_data_processing_pipelines](https://github.com/user-attachments/assets/adb572b8-2bd2-401c-af92-69199de77e64)
 
 
 
-
-![data_pipeline](https://github.com/user-attachments/assets/619eeeb6-bf9e-4296-9c86-75d8070668a2)
 
 
 For Raw Staging,  we have developed a script to extract the files from the website, stage it to s3 and load data from s3 to snowflake.
 
 
-![json_pipeline](https://github.com/user-attachments/assets/9bfca83b-6073-48af-91fe-b9ac8c7ddf2a) 
 
 For Json Staging,the scraped files are converted into json using scripts, then staged to s3, then uploaded to snowflake. However, the script puts the data into tsv rather than json format, so some transformations are done so that json is flattened.
 
-![tables_pipeline](https://github.com/user-attachments/assets/c3ca277e-fd33-450c-91b3-4f2246878214)
+
 
 For Dbt, we run the dbt to create denormalized tables in Snowflake.
 
