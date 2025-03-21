@@ -2,17 +2,24 @@ from fastapi import FastAPI, HTTPException, Depends, Query
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from urllib.parse import quote_plus
+from dotenv import load_dotenv
+import os
 
 app = FastAPI()
 
-#snowflake credentials
-SNOWFLAKE_USER = "ARVIND177"
-SNOWFLAKE_PASSWORD = quote_plus("Arvind@177")  
-SNOWFLAKE_ACCOUNT = "duvvjid-bvb83781"
-SNOWFLAKE_DATABASE = "FIN_DATA"
-SNOWFLAKE_SCHEMA = "DEV"
-SNOWFLAKE_WAREHOUSE = "WAREHOUSE_STORE"
-SNOWFLAKE_ROLE = "ACCOUNTADMIN"
+
+
+# Load environment variables from the .env file
+load_dotenv()
+
+# Get Snowflake connection details from the environment variables
+SNOWFLAKE_USER = os.getenv("SNOWFLAKE_USER")
+SNOWFLAKE_PASSWORD = os.getenv("SNOWFLAKE_PASSWORD")
+SNOWFLAKE_ACCOUNT = os.getenv("SNOWFLAKE_ACCOUNT")
+SNOWFLAKE_DATABASE = os.getenv("SNOWFLAKE_DATABASE")
+SNOWFLAKE_SCHEMA = os.getenv("SNOWFLAKE_SCHEMA")
+SNOWFLAKE_WAREHOUSE = os.getenv("SNOWFLAKE_WAREHOUSE")
+SNOWFLAKE_ROLE = os.getenv("SNOWFLAKE_ROLE")
 
 SNOWFLAKE_URL = (
     f"snowflake://{SNOWFLAKE_USER}:{SNOWFLAKE_PASSWORD}@{SNOWFLAKE_ACCOUNT}/"
